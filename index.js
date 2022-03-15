@@ -196,8 +196,8 @@ function getRottenTomatoesScoreByMovie(movies) {
     throw "`movies` array is empty";
   }
   return movies.map((movie) => {
-    const tom = movie.ratings.find(ratings => ratings.source === "Rotten Tomatoes").value;
-    return { [movie.title]: tom };
+    const rottenTomatoesScore = movie.ratings.find(ratings => ratings.source === "Rotten Tomatoes").value;
+    return { [movie.title]: rottenTomatoesScore };
   });
 }
 
