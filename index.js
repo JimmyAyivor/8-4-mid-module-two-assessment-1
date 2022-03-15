@@ -31,8 +31,8 @@ const exampleMovies = require("./movies");
     ];
  */
 function getAllMovieTitles(movies) {
-  if(movies.length === 0){
-   throw "`movies` array is empty";
+  if (movies.length === 0) {
+    throw "`movies` array is empty";
   }
   return movies.map(movie => movie.title);
 }
@@ -55,10 +55,10 @@ function getAllMovieTitles(movies) {
  *  checkIfAnyMovieHasRating(movies, "R");
  *  //> false
  */
-function checkIfAnyMovieHasRating(movies,rating="G") {
-  if(movies.length === 0){
+function checkIfAnyMovieHasRating(movies, rating = "G") {
+  if (movies.length === 0) {
     throw "`movies` array is empty";
-   }
+  }
   return movies.some(movie => movie.rated === rating);
 }
 
@@ -79,11 +79,11 @@ function checkIfAnyMovieHasRating(movies,rating="G") {
     };
  */
 function findById(movies, id) {
-  let result = null;
-  if(movies.length === 0){
+  if (movies.length === 0) {
     throw "`movies` array is empty";
-   }
-  return movies.find(movie => movie.imdbID === id ? movie : result);
+  }
+  const result = movies.find(movie => movie.imdbID === id);
+  return result ? result : null;
 }
 
 /**
@@ -109,12 +109,10 @@ function findById(movies, id) {
  *  //> []
  */
 function filterByGenre(movies, genre) {
-  if(movies.length === 0){
+  if (movies.length === 0) {
     throw "`movies` array is empty";
-   }
-   const oldGenre = genre.toLowerCase();
-    const newGenre = oldGenre.charAt(0).toUpperCase() + oldGenre.slice(1);
-  return movies.filter(movie => movie.genre.includes(newGenre));
+  }
+  return movies.filter(movie => movie.genre.toUpperCase().includes(genre.toUpperCase()));
 }
 
 /**
@@ -142,13 +140,10 @@ function filterByGenre(movies, genre) {
     ];
  */
 function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
-  if(movies.length === 0){
+  if (movies.length === 0) {
     throw "`movies` array is empty";
-   }
-  //  let releaseYear = movie.released.split(' ',2)
-  //  releaseYear = releaseYear[2] * 1
-  return movies.filter(movie => (((movie.releasedOnDVD.split(' ')[2]) * 1) <= year));
-  
+  }
+  return movies.filter(movie => (((movie.released.split(' ')[2]) * 1) <= year));
 }
 
 /**
@@ -166,10 +161,10 @@ function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
  *  //>  false
  */
 function checkMinMetascores(movies, metascore) {
-  if(movies.length === 0){
+  if (movies.length === 0) {
     throw "`movies` array is empty";
-   }
-   return movies.every(movie => movie.metascore >metascore );
+  }
+  return movies.every(movie => movie.metascore >= metascore);
 }
 
 /**
@@ -197,10 +192,13 @@ function checkMinMetascores(movies, metascore) {
     ];
  */
 function getRottenTomatoesScoreByMovie(movies) {
-  if(movies.length === 0){
+  if (movies.length === 0) {
     throw "`movies` array is empty";
-   }
-  return movies.map(({ title, ratings}) => ({ [title] : ratings.find(ratings.source === "Rotten Tomatoes").value}));
+  }
+  return movies.map((movie) => {
+    const tom = movie.ratings.find(ratings => ratings.source === "Rotten Tomatoes").value;
+    return { [movie.title]: tom };
+  });
 }
 
 // Do not change anything below this line.
